@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/provider/theme-provider";
 import { QueryProvider } from "@/provider/query-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const instrumentSansHeading = Instrument_Sans({
   subsets: ["latin"],
@@ -42,15 +43,17 @@ export default function RootLayout({
         instrumentSansHeading.variable
       )}>
       <body className="min-h-full flex flex-col">
-        <QueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
-        </QueryProvider>
+        <ClerkProvider>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
