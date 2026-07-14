@@ -4,7 +4,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/db";
 import type { User } from "@/lib/generated/prisma/client";
 
-
 export async function onBoard() {
   const clerkUser = await currentUser();
   if (!clerkUser) {
@@ -17,14 +16,14 @@ export async function onBoard() {
       clerkId: clerkUser.id,
       email: email,
       firstName: clerkUser.firstName,
-      LastName: clerkUser.lastName,
-      ImgUrl: clerkUser.imageUrl,
+      lastName: clerkUser.lastName,
+      imageUrl: clerkUser.imageUrl,
     },
     update: {
       email: email,
       firstName: clerkUser.firstName,
-      LastName: clerkUser.lastName,
-      ImgUrl: clerkUser.imageUrl,
+      lastName: clerkUser.lastName,
+      imageUrl: clerkUser.imageUrl,
     },
   });
 }
