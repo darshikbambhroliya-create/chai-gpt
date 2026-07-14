@@ -1,0 +1,30 @@
+"use server";
+
+import { currentUser } from "@clerk/nextjs/server";
+import { prisma } from "@/lib/db";
+import type { User } from "@/lib/generated/prisma/client";
+
+
+export async function onBoard() {
+  const clerkUser = await currentUser();
+  if (!clerkUser) {
+    throw new Error("UnAuthorized");
+  }
+  const email = clerkUser.emailAddresses[0]?.emailAddress ?? null;
+  return prisma.user.upsert({
+    where: { clerkId: clerkUser.id },
+    create: {
+      clerkId: clerkUser.id,
+      email: email,
+      firstName: clerkUser.firstName,
+      LastName: clerkUser.lastName,
+      ImgUrl: clerkUser.imageUrl,
+    },
+    update: {
+      email: email,
+      firstName: clerkUser.firstName,
+      LastName: clerkUser.lastName,
+      ImgUrl: clerkUser.imageUrl,
+    },
+  });
+}
