@@ -97,3 +97,8 @@ export async function updateConversation(
 
   return conversation;
 }
+
+export async function getConversation(id: string) {
+  const user = await requireUser();
+  return assertOwnConversation(id,user.id)
+}
