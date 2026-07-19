@@ -2,6 +2,7 @@ import {
   loadChatMessages,
   saveChatMessages,
 } from "@/features/ai/action/chat-store";
+import { webSearchTool } from "@/features/ai/lib/web-search";
 import { getChatModel } from "@/features/ai/utils/model";
 import { requireUser } from "@/features/auth/action/user";
 import { prisma } from "@/lib/db";
@@ -62,6 +63,9 @@ export async function POST(req: Request) {
     system:
       conversation.systemPrompt ?? "You are ChaiGpt , a helpful assistant",
     messages: await convertToModelMessages(messages),
+    tools: {
+      web_search: webSearchTool,
+    },
   });
 
   result.consumeStream();
